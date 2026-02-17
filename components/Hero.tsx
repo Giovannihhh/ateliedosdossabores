@@ -44,9 +44,11 @@ const Hero: React.FC = () => {
     >
       {/* Background Video with Overlay */}
       <div className="absolute inset-0 z-0">
-        {/* Overlay escuro constante para garantir contraste com texto branco e visibilidade do video */}
-        <div className="absolute inset-0 bg-black/40 z-10"></div> 
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 transition-colors duration-500"></div>
+        {/* Overlay reduzido para 20% para clarear o vídeo (antes era 40%) */}
+        <div className="absolute inset-0 bg-black/20 z-10"></div> 
+        
+        {/* Gradiente restrito apenas à parte inferior (h-32) em vez da tela toda (inset-0), removendo o efeito "lavado" no vídeo */}
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent z-10 transition-colors duration-500"></div>
         
         <video 
           autoPlay 
