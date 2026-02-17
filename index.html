@@ -46,12 +46,17 @@
         --color-secondary: #5D5D5D;
         --color-accent: #2D2D2D;
       }
+      
+      /* Scroll Suave Nativo */
+      html {
+        scroll-behavior: smooth;
+      }
 
       .dark {
         --color-background: #050505;
         --color-surface: #121212;
         --color-surface-highlight: #1a1a1a;
-        --color-primary: #E08894; /* Mantém o rosa da marca, mas com fundo escuro fica mais sofisticado */
+        --color-primary: #E08894;
         --color-secondary: #a0a0a0;
         --color-accent: #e5e5e5;
       }
@@ -79,14 +84,13 @@
       }
       
       .glass-nav {
-        background: rgba(var(--color-background), 0.85); /* Need to handle RGB in vars for proper alpha, simplified here to fallback or JS handling usually, but for simple glass: */
+        background: rgba(var(--color-background), 0.85);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border-bottom: 1px solid rgba(224, 136, 148, 0.1);
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
       }
       
-      /* Manual adjustment for glass nav color since vars contain # */
       :root .glass-nav {
          background: rgba(255, 249, 240, 0.85);
       }
@@ -107,7 +111,7 @@
         border: 1px solid rgba(255, 255, 255, 0.05);
       }
     </style>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.4",
