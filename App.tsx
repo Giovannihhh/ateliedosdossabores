@@ -5,6 +5,8 @@ import Features from './components/Features';
 import Menu from './components/Menu';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
+import CartSidebar from './components/CartSidebar';
+import { CartProvider } from './CartContext';
 
 // Use a smooth scroll wrapper or native scroll behavior
 const App: React.FC = () => {
@@ -26,16 +28,19 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-background min-h-screen text-accent selection:bg-primary selection:text-white">
-      <Navbar />
-      <main>
-        <Hero />
-        <Features />
-        <Menu />
-        <Testimonials />
-      </main>
-      <Footer />
-    </div>
+    <CartProvider>
+      <div className="bg-background min-h-screen text-accent selection:bg-primary selection:text-white">
+        <Navbar />
+        <CartSidebar />
+        <main>
+          <Hero />
+          <Menu />
+          <Features />
+          <Testimonials />
+        </main>
+        <Footer />
+      </div>
+    </CartProvider>
   );
 };
 

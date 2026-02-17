@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, X, ShoppingBag, Moon, Sun } from 'lucide-react';
+import { useCart } from '../CartContext';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const { toggleCart, cartCount } = useCart();
 
   useEffect(() => {
     // Check initial theme preference
@@ -35,6 +37,12 @@ const Navbar: React.FC = () => {
     }
   };
 
+  // Dynamic text classes based on scroll state
+  const textColorClass = isScrolled ? 'text-accent' : 'text-white';
+  const subTextColorClass = isScrolled ? 'text-primary' : 'text-primary';
+  const linkColorClass = isScrolled ? 'text-secondary hover:text-primary' : 'text-white/90 hover:text-white';
+  const iconColorClass = isScrolled ? 'text-accent hover:text-primary' : 'text-white hover:text-primary';
+
   return (
     <nav 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
@@ -43,8 +51,8 @@ const Navbar: React.FC = () => {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         <a href="#" className="flex flex-col leading-tight group">
-          <span className="font-script text-3xl text-accent group-hover:text-primary transition-colors">Ateliê dos</span>
-          <span className="font-serif text-2xl font-bold tracking-tight text-primary group-hover:text-accent transition-colors -mt-2">Sabores</span>
+          <span className={`font-script text-3xl transition-colors ${textColorClass} group-hover:text-primary`}>Ateliê dos</span>
+          <span className={`font-serif text-2xl font-bold tracking-tight transition-colors -mt-2 ${subTextColorClass} group-hover:${isScrolled ? 'text-accent' : 'text-white'}`}>Sabores</span>
         </a>
 
         {/* Desktop Menu */}
@@ -53,7 +61,7 @@ const Navbar: React.FC = () => {
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`} 
-              className={`text-sm uppercase tracking-widest font-medium transition-colors duration-300 ${isScrolled ? 'text-secondary hover:text-primary' : 'text-secondary/80 hover:text-primary'}`}
+              className={`text-sm uppercase tracking-widest font-medium transition-colors duration-300 ${linkColorClass}`}
             >
               {item}
             </a>
@@ -63,18 +71,26 @@ const Navbar: React.FC = () => {
         <div className="hidden md:flex items-center space-x-6">
           <button 
             onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-surfaceHighlight transition-colors text-accent"
+            className={`p-2 rounded-full hover:bg-white/10 transition-colors ${iconColorClass}`}
             aria-label="Alternar tema"
           >
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
-          <button className={`transition-colors ${isScrolled ? 'text-accent hover:text-primary' : 'text-accent hover:text-primary'}`}>
+          <button 
+            onClick={toggleCart}
+            className={`transition-colors relative ${iconColorClass}`}
+          >
             <ShoppingBag size={20} />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                {cartCount}
+              </span>
+            )}
           </button>
           <a 
             href="#menu"
-            className="px-6 py-2 bg-primary text-white rounded-full text-xs uppercase tracking-widest hover:bg-accent transition-all duration-300 shadow-md hover:shadow-lg"
+            className="px-6 py-2 bg-primary text-white rounded-full text-xs uppercase tracking-widest hover:bg-accent transition-all duration-300 shadow-md hover:shadow-lg border border-transparent"
           >
             Encomendar
           </a>
@@ -82,14 +98,26 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Toggle */}
         <div className="flex items-center gap-4 md:hidden">
+           <button 
+            onClick={toggleCart}
+            className={`transition-colors relative ${iconColorClass}`}
+          >
+            <ShoppingBag size={20} />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                {cartCount}
+              </span>
+            )}
+          </button>
+          
           <button 
             onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-surfaceHighlight transition-colors text-accent"
+            className={`p-2 rounded-full hover:bg-white/10 transition-colors ${iconColorClass}`}
           >
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           <button 
-            className="text-accent"
+            className={`${iconColorClass}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X /> : <Menu />}

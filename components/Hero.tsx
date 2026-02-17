@@ -42,36 +42,42 @@ const Hero: React.FC = () => {
       ref={heroRef}
       className="relative w-full h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background Image with Overlay */}
+      {/* Background Video with Overlay */}
       <div className="absolute inset-0 z-0">
-        {/* Adjusted overlay for Dark Mode compatibility using utility classes */}
-        <div className="absolute inset-0 bg-white/20 dark:bg-black/50 z-10 transition-colors duration-500"></div> 
+        {/* Overlay escuro constante para garantir contraste com texto branco e visibilidade do video */}
+        <div className="absolute inset-0 bg-black/40 z-10"></div> 
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 transition-colors duration-500"></div>
-        <img 
-          src="https://images.unsplash.com/photo-1488477181946-6428a0291777?q=80&w=2574&auto=format&fit=crop" 
-          alt="Mesa de doces delicados" 
+        
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
           className="w-full h-full object-cover"
-        />
+        >
+          <source src="https://github.com/Giovannihhh/sites/raw/refs/heads/main/7186835_Chocolate_Melting_1280x720.mp4" type="video/mp4" />
+          Seu navegador não suporta vídeos HTML5.
+        </video>
       </div>
 
       <div className="container mx-auto px-6 relative z-20 text-center">
         <div className="flex justify-center mb-4">
-           <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/60 dark:bg-black/40 backdrop-blur-sm text-primary text-sm font-medium tracking-wide shadow-sm transition-colors duration-500">
-             <Heart size={14} fill="currentColor" /> Feito com amor
+           <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-black/30 backdrop-blur-sm text-white text-sm font-medium tracking-wide shadow-sm border border-white/10 transition-colors duration-500">
+             <Heart size={14} fill="currentColor" className="text-primary" /> Feito com amor
            </span>
         </div>
         
         <h1 
           ref={titleRef}
-          className="text-accent mb-6"
+          className="text-white mb-6 drop-shadow-lg"
         >
           <span className="block font-script text-6xl md:text-7xl lg:text-8xl mb-2 text-primary drop-shadow-sm">Ateliê dos</span>
-          <span className="block font-serif text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-accent transition-colors duration-500">Sabores</span>
+          <span className="block font-serif text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white transition-colors duration-500">Sabores</span>
         </h1>
         
         <p 
           ref={subRef}
-          className="font-sans text-secondary text-lg md:text-xl max-w-2xl mx-auto mb-10 font-normal leading-relaxed bg-white/40 dark:bg-black/40 backdrop-blur-sm p-4 rounded-xl transition-colors duration-500"
+          className="font-sans text-gray-100 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-normal leading-relaxed bg-black/20 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg transition-colors duration-500"
         >
           Doces artesanais que abraçam o paladar. Ingredientes frescos, receitas de família e aquele toque especial de carinho em cada pedacinho.
         </p>
@@ -88,8 +94,8 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce opacity-50">
-        <ArrowDown className="text-primary" size={24} />
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce opacity-80">
+        <ArrowDown className="text-white" size={24} />
       </div>
     </section>
   );

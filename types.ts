@@ -3,8 +3,13 @@ export interface Product {
   name: string;
   description: string;
   price: string;
+  priceValue: number; // Added for calculations
   image: string;
   category: string;
+}
+
+export interface CartItem extends Product {
+  quantity: number;
 }
 
 export interface Testimonial {
