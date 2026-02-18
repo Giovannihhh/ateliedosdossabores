@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-12">
-          {['Menu', 'Sobre', 'Diferenciais', 'Contato'].map((item) => (
+          {['Menu', 'Diferenciais', 'Contato'].map((item) => (
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`} 
@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-background border-b border-primary/10 p-6 flex flex-col space-y-6 md:hidden glass-nav shadow-xl">
-           {['Menu', 'Sobre', 'Diferenciais', 'Contato'].map((item) => (
+           {['Menu', 'Diferenciais', 'Contato'].map((item) => (
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`} 
