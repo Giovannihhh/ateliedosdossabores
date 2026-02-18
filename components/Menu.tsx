@@ -2,7 +2,7 @@ import React, { useRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Product } from '../types';
-import { UtensilsCrossed, CakeSlice, Cookie, Cherry, IceCream, ShoppingBag } from 'lucide-react';
+import { UtensilsCrossed, CakeSlice, Cookie, Cherry, IceCream, Plus } from 'lucide-react';
 import { useCart } from '../CartContext';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -99,7 +99,7 @@ const Menu: React.FC = () => {
             stagger: 0.1,
             scrollTrigger: {
               trigger: item,
-              start: "top 90%",
+              start: "top 95%", // Trigger um pouco antes para mobile
             }
           }
         );
@@ -127,13 +127,13 @@ const Menu: React.FC = () => {
           </p>
         </div>
 
-        {/* Categories Navigation */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-10 md:mb-16">
+        {/* Categories Navigation - Updated to wrap items instead of scroll */}
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-16 px-2">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${
+              className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${
                 activeCategory === cat.id
                   ? 'bg-primary text-white shadow-lg shadow-primary/30'
                   : 'bg-surface text-secondary hover:bg-surfaceHighlight hover:text-primary shadow-sm'
@@ -146,15 +146,15 @@ const Menu: React.FC = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 min-h-[400px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 min-h-[400px]">
           {filteredProducts.map((product) => (
             <div 
               key={product.id} 
-              className="menu-item group cursor-pointer bg-surface p-4 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-primary/10 flex flex-col h-full"
+              className="menu-item group cursor-pointer bg-surface p-3 md:p-4 rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-primary/10 flex flex-row md:flex-col gap-4 md:gap-0 h-auto md:h-full items-center md:items-stretch"
               onClick={() => addToCart(product)}
             >
-              {/* Product Image */}
-              <div className="relative h-48 sm:h-56 overflow-hidden rounded-2xl mb-5">
+              {/* Product Image - Quadrada menor no mobile, retangular grande no desktop */}
+              <div className="relative w-28 h-28 md:w-full md:h-56 flex-shrink-0 overflow-hidden rounded-xl md:rounded-2xl md:mb-5">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 z-10"></div>
                 <img 
                   src={product.image} 
@@ -163,31 +163,32 @@ const Menu: React.FC = () => {
                 />
                 
                 {/* Category Badge */}
-                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-primary z-20 shadow-sm">
+                <div className="absolute top-2 right-2 md:top-3 md:right-3 bg-white/90 backdrop-blur-sm px-2 py-0.5 md:px-3 md:py-1 rounded-full text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-primary z-20 shadow-sm">
                   {product.category}
                 </div>
               </div>
 
-              <div className="flex flex-col flex-grow justify-between">
+              {/* Content Container */}
+              <div className="flex flex-col flex-grow justify-between w-full h-full md:h-auto">
                 <div>
-                  <h3 className="font-serif text-xl text-accent mb-2 group-hover:text-primary transition-colors font-bold duration-500 leading-tight">
+                  <h3 className="font-serif text-lg md:text-xl text-accent mb-1 md:mb-2 group-hover:text-primary transition-colors font-bold duration-500 leading-tight line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="font-sans text-secondary text-sm font-normal leading-relaxed transition-colors duration-500 mb-4 line-clamp-3">
+                  <p className="font-sans text-secondary text-xs md:text-sm font-normal leading-relaxed transition-colors duration-500 mb-2 md:mb-4 line-clamp-2 md:line-clamp-3">
                     {product.description}
                   </p>
                 </div>
                 
-                <div className="flex justify-between items-center mt-auto border-t border-primary/5 pt-4">
-                   <span className="font-script text-2xl text-primary font-bold">{product.price}</span>
+                <div className="flex justify-between items-center mt-auto md:border-t border-primary/5 md:pt-4">
+                   <span className="font-script text-xl md:text-2xl text-primary font-bold">{product.price}</span>
                    <button 
                      onClick={(e) => {
                        e.stopPropagation();
                        addToCart(product);
                      }}
-                     className="w-8 h-8 md:w-auto md:h-auto md:px-4 md:py-2 rounded-full md:rounded-lg bg-surfaceHighlight text-primary hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+                     className="w-8 h-8 md:w-auto md:h-auto md:px-4 md:py-2 rounded-full md:rounded-lg bg-surfaceHighlight text-primary hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-sm"
                    >
-                     <ShoppingBag size={16} className="md:hidden" />
+                     <Plus size={18} className="md:hidden" />
                      <span className="hidden md:inline text-xs font-bold uppercase tracking-widest">Adicionar</span>
                    </button>
                 </div>
