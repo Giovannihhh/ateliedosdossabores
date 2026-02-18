@@ -1,41 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, ShoppingBag, Moon, Sun } from 'lucide-react';
+import { Menu, X, ShoppingBag } from 'lucide-react';
 import { useCart } from '../CartContext';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
   const { toggleCart, cartCount } = useCart();
 
   useEffect(() => {
-    // Check initial theme preference
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove('dark');
-    }
-
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-      setIsDark(true);
-    }
-  };
 
   // Dynamic text classes based on scroll state
   const textColorClass = isScrolled ? 'text-accent' : 'text-white';
@@ -70,14 +48,6 @@ const Navbar: React.FC = () => {
 
         <div className="hidden md:flex items-center space-x-6">
           <button 
-            onClick={toggleTheme}
-            className={`p-2 rounded-full hover:bg-white/10 transition-colors ${iconColorClass}`}
-            aria-label="Alternar tema"
-          >
-            {isDark ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-
-          <button 
             onClick={toggleCart}
             className={`transition-colors relative ${iconColorClass}`}
           >
@@ -110,12 +80,6 @@ const Navbar: React.FC = () => {
             )}
           </button>
           
-          <button 
-            onClick={toggleTheme}
-            className={`p-2 rounded-full hover:bg-white/10 transition-colors ${iconColorClass}`}
-          >
-            {isDark ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
           <button 
             className={`${iconColorClass}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}

@@ -2,7 +2,7 @@ import React, { useRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Product } from '../types';
-import { UtensilsCrossed, CakeSlice, Cookie, Cherry, IceCream } from 'lucide-react';
+import { UtensilsCrossed, CakeSlice, Cookie, Cherry, IceCream, ShoppingBag } from 'lucide-react';
 import { useCart } from '../CartContext';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -113,70 +113,82 @@ const Menu: React.FC = () => {
     : products.filter(p => p.categoryId === activeCategory);
 
   return (
-    <section id="menu" className="py-24 bg-background relative overflow-hidden transition-colors duration-500" ref={sectionRef}>
+    <section id="menu" className="py-12 md:py-24 bg-background relative overflow-hidden transition-colors duration-500" ref={sectionRef}>
       {/* Decorative Elements */}
       <div className="absolute top-10 left-[-100px] w-[300px] h-[300px] bg-primary/10 rounded-full blur-[80px] pointer-events-none"></div>
       <div className="absolute bottom-10 right-[-100px] w-[400px] h-[400px] bg-surfaceHighlight rounded-full blur-[80px] pointer-events-none transition-colors duration-500"></div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-12">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="text-center mb-8 md:mb-12">
           <span className="text-primary font-bold tracking-widest uppercase text-xs mb-2 block">Cardápio</span>
-          <h2 className="font-serif text-4xl md:text-5xl text-accent mb-4 font-bold transition-colors duration-500">Nossas Delícias</h2>
-          <p className="text-secondary font-light max-w-lg mx-auto transition-colors duration-500">
+          <h2 className="font-serif text-3xl md:text-5xl text-accent mb-3 md:mb-4 font-bold transition-colors duration-500">Nossas Delícias</h2>
+          <p className="text-secondary font-light max-w-lg mx-auto text-sm md:text-base transition-colors duration-500">
             Explore nossas categorias e encontre o doce perfeito para o seu momento.
           </p>
         </div>
 
         {/* Categories Navigation */}
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-10 md:mb-16">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${
+              className={`flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 ${
                 activeCategory === cat.id
                   ? 'bg-primary text-white shadow-lg shadow-primary/30'
                   : 'bg-surface text-secondary hover:bg-surfaceHighlight hover:text-primary shadow-sm'
               }`}
             >
-              {cat.icon}
+              <span className="hidden md:inline">{cat.icon}</span>
               {cat.label}
             </button>
           ))}
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 min-h-[400px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 min-h-[400px]">
           {filteredProducts.map((product) => (
-            <div key={product.id} className="menu-item group cursor-pointer bg-surface p-4 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-primary/10 flex flex-col h-full">
-              <div className="relative h-[250px] overflow-hidden rounded-2xl mb-6 flex-shrink-0">
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500 z-10"></div>
+            <div 
+              key={product.id} 
+              className="menu-item group cursor-pointer bg-surface p-4 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-primary/10 flex flex-col h-full"
+              onClick={() => addToCart(product)}
+            >
+              {/* Product Image */}
+              <div className="relative h-48 sm:h-56 overflow-hidden rounded-2xl mb-5">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 z-10"></div>
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                  className="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute top-4 left-4 z-20 bg-surface/90 backdrop-blur-md px-3 py-1 rounded-full text-xs text-accent font-bold uppercase tracking-wider shadow-sm transition-colors duration-500">
+                
+                {/* Category Badge */}
+                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-primary z-20 shadow-sm">
                   {product.category}
                 </div>
               </div>
-              
-              <div className="flex flex-col flex-grow justify-between px-2">
+
+              <div className="flex flex-col flex-grow justify-between">
                 <div>
-                  <h3 className="font-serif text-xl text-accent mb-2 group-hover:text-primary transition-colors font-bold duration-500">
+                  <h3 className="font-serif text-xl text-accent mb-2 group-hover:text-primary transition-colors font-bold duration-500 leading-tight">
                     {product.name}
                   </h3>
-                  <p className="font-sans text-secondary text-sm font-normal leading-relaxed transition-colors duration-500 mb-4">
+                  <p className="font-sans text-secondary text-sm font-normal leading-relaxed transition-colors duration-500 mb-4 line-clamp-3">
                     {product.description}
                   </p>
                 </div>
+                
                 <div className="flex justify-between items-center mt-auto border-t border-primary/5 pt-4">
-                   <span className="font-script text-2xl text-primary font-bold whitespace-nowrap">{product.price}</span>
+                   <span className="font-script text-2xl text-primary font-bold">{product.price}</span>
                    <button 
-                     onClick={() => addToCart(product)}
-                     className="text-xs font-bold uppercase tracking-widest text-secondary hover:text-primary transition-colors"
+                     onClick={(e) => {
+                       e.stopPropagation();
+                       addToCart(product);
+                     }}
+                     className="w-8 h-8 md:w-auto md:h-auto md:px-4 md:py-2 rounded-full md:rounded-lg bg-surfaceHighlight text-primary hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn"
                    >
-                     Adicionar
+                     <ShoppingBag size={16} className="md:hidden" />
+                     <span className="hidden md:inline text-xs font-bold uppercase tracking-widest">Adicionar</span>
                    </button>
                 </div>
               </div>
@@ -187,12 +199,6 @@ const Menu: React.FC = () => {
               <p>Nenhum produto encontrado nesta categoria.</p>
             </div>
           )}
-        </div>
-        
-        <div className="mt-16 text-center">
-           <a href="#" className="inline-block px-8 py-3 bg-white border border-primary text-primary rounded-full hover:bg-primary hover:text-white shadow-md hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 text-sm font-bold uppercase tracking-widest">
-            Baixar Cardápio em PDF
-          </a>
         </div>
       </div>
     </section>

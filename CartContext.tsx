@@ -30,7 +30,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
       return [...current, { ...product, quantity: 1 }];
     });
-    setIsCartOpen(true);
+    // Carrinho não abrirá mais automaticamente ao adicionar item
   };
 
   const removeFromCart = (productId: number) => {

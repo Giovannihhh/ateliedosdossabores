@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ArrowDown, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -94,10 +94,6 @@ const Hero: React.FC = () => {
             <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
           </a>
         </div>
-      </div>
-
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce opacity-80">
-        <ArrowDown className="text-white" size={24} />
       </div>
     </section>
   );

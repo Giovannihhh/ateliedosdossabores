@@ -14,7 +14,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
-        darkMode: 'class',
         theme: {
           extend: {
             colors: {
@@ -52,20 +51,10 @@
         scroll-behavior: smooth;
       }
 
-      .dark {
-        --color-background: #050505;
-        --color-surface: #121212;
-        --color-surface-highlight: #1a1a1a;
-        --color-primary: #E08894;
-        --color-secondary: #a0a0a0;
-        --color-accent: #e5e5e5;
-      }
-
       body {
         background-color: var(--color-background);
         color: var(--color-accent);
         overflow-x: hidden;
-        transition: background-color 0.5s ease, color 0.5s ease;
       }
       
       /* Custom Scrollbar */
@@ -84,31 +73,18 @@
       }
       
       .glass-nav {
-        background: rgba(var(--color-background), 0.85);
+        background: rgba(255, 249, 240, 0.85);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border-bottom: 1px solid rgba(224, 136, 148, 0.1);
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
       }
       
-      :root .glass-nav {
-         background: rgba(255, 249, 240, 0.85);
-      }
-      .dark .glass-nav {
-         background: rgba(5, 5, 5, 0.85);
-         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      }
-
       .glass-card {
         background: rgba(255, 255, 255, 0.8);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.5);
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-      }
-      
-      .dark .glass-card {
-        background: rgba(20, 20, 20, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.05);
       }
     </style>
 <script type="importmap">

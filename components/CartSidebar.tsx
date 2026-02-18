@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '../CartContext';
 
 const CartSidebar: React.FC = () => {
   const { isCartOpen, toggleCart, items, updateQuantity, removeFromCart, cartTotal } = useCart();
+  const [couponCode, setCouponCode] = useState('');
 
   const handleCheckout = () => {
     // Format message for WhatsApp
@@ -12,9 +13,10 @@ const CartSidebar: React.FC = () => {
       `• ${item.quantity}x ${item.name} (R$ ${(item.priceValue * item.quantity).toFixed(2).replace('.', ',')})`
     ).join('\n');
     const total = `\n\n*Total: R$ ${cartTotal.toFixed(2).replace('.', ',')}*`;
+    const couponMsg = couponCode ? `\n\nCupom: ${couponCode}` : "";
     const footer = "\n\nQual o prazo de entrega?";
 
-    const fullMessage = encodeURIComponent(header + itemsList + total + footer);
+    const fullMessage = encodeURIComponent(header + itemsList + total + couponMsg + footer);
     // Replace with actual number
     window.open(`https://wa.me/5511999999999?text=${fullMessage}`, '_blank');
   };
@@ -68,7 +70,8 @@ const CartSidebar: React.FC = () => {
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <h3 className="font-serif text-accent font-bold leading-tight mb-1">{item.name}</h3>
-                      <p className="text-primary font-bold text-sm">R$ {item.price}</p>
+                      {/* Fixed: removed extra "R$" since item.price already contains it */}
+                      <p className="text-primary font-bold text-sm">{item.price}</p>
                     </div>
                     
                     <div className="flex justify-between items-center mt-2">
@@ -105,6 +108,26 @@ const CartSidebar: React.FC = () => {
           {/* Footer */}
           {items.length > 0 && (
             <div className="p-6 bg-surface border-t border-primary/10 space-y-4">
+              
+              {/* Coupon Field */}
+              <div className="space-y-2">
+                 <label className="text-xs text-secondary font-medium uppercase tracking-wider">Cupom de desconto</label>
+                 <div className="flex gap-2">
+                    <input 
+                      type="text" 
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                      placeholder="Código do cupom"
+                      className="flex-1 bg-background border border-primary/20 rounded-lg px-4 py-2 text-sm text-accent placeholder:text-secondary/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
+                    />
+                    <button className="bg-surfaceHighlight text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all duration-300">
+                      Aplicar
+                    </button>
+                 </div>
+              </div>
+
+              <div className="h-px bg-primary/5 my-2"></div>
+
               <div className="flex justify-between items-end">
                 <span className="text-secondary text-sm font-medium uppercase tracking-wider">Total</span>
                 <span className="text-3xl font-script text-primary font-bold">
