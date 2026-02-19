@@ -16,12 +16,13 @@ const categories = [
   { id: 'doces', label: 'Doces Finos', icon: <IceCream size={16} /> }
 ];
 
-// Produtos atualizados com categoryId e priceValue, e imagens funcionais do Unsplash
+// Produtos atualizados com categoryId, priceValue e Ingredientes
 const products: (Product & { categoryId: string })[] = [
   {
     id: 1,
     name: "Bolo no Pote Ninho com Morango",
     description: "Camadas generosas de bolo fofinho, creme de Leite Ninho original e geleia de morangos frescos.",
+    ingredients: "Pão de ló de baunilha, leite condensado, leite Ninho integral, creme de leite fresco, morangos orgânicos.",
     price: "R$ 18,00",
     priceValue: 18.00,
     category: "Favoritos",
@@ -32,6 +33,7 @@ const products: (Product & { categoryId: string })[] = [
     id: 2,
     name: "Brownie Super Chocolatudo",
     description: "Casquinha crocante por fora, denso e úmido por dentro. Feito com chocolate nobre.",
+    ingredients: "Chocolate meio amargo 50%, manteiga extra sem sal, cacau em pó 100%, ovos, açúcar, farinha de trigo, nozes (opcional).",
     price: "R$ 12,00",
     priceValue: 12.00,
     category: "Brownies",
@@ -42,6 +44,7 @@ const products: (Product & { categoryId: string })[] = [
     id: 3,
     name: "Torta de Limão Suíço",
     description: "Massa amanteigada crocante, recheio cremoso de limão e merengue tostado.",
+    ingredients: "Farinha de trigo, manteiga, leite condensado, suco de limão taiti fresco, claras de ovos, açúcar refinado.",
     price: "R$ 14,00",
     priceValue: 14.00,
     category: "Tortas",
@@ -52,6 +55,7 @@ const products: (Product & { categoryId: string })[] = [
     id: 4,
     name: "Mousse de Maracujá Real",
     description: "Aerado e azedinho na medida certa, com calda da fruta reduzida no ateliê.",
+    ingredients: "Polpa de maracujá fresco, leite condensado, creme de leite, gelatina incolor (em pouca quantidade), açúcar.",
     price: "R$ 15,00",
     priceValue: 15.00,
     category: "Doces",
@@ -62,6 +66,7 @@ const products: (Product & { categoryId: string })[] = [
     id: 5,
     name: "Red Velvet no Pote",
     description: "O clássico veludo vermelho com recheio cremoso de cream cheese e toque de baunilha.",
+    ingredients: "Farinha de trigo, cacau em pó, corante alimentício vermelho, cream cheese, manteiga, açúcar de confeiteiro, extrato de baunilha.",
     price: "R$ 20,00",
     priceValue: 20.00,
     category: "Bolos",
@@ -72,6 +77,7 @@ const products: (Product & { categoryId: string })[] = [
     id: 6,
     name: "Brigadeiro Gourmet Belga",
     description: "Kit com 4 unidades. Chocolate Callebaut ao leite enrolado em granulado nobre.",
+    ingredients: "Leite condensado, chocolate belga Callebaut ao leite, creme de leite, manteiga, granulado de chocolate belga.",
     price: "R$ 16,00",
     priceValue: 16.00,
     category: "Doces",
@@ -150,8 +156,7 @@ const Menu: React.FC = () => {
           {filteredProducts.map((product) => (
             <div 
               key={product.id} 
-              className="menu-item group cursor-pointer bg-surface p-3 md:p-4 rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-primary/10 flex flex-row md:flex-col gap-4 md:gap-0 h-auto md:h-full items-center md:items-stretch"
-              onClick={() => addToCart(product)}
+              className="menu-item group bg-surface p-3 md:p-4 rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-primary/10 flex flex-row md:flex-col gap-4 md:gap-0 h-auto md:h-full items-center md:items-stretch"
             >
               {/* Product Image - Quadrada menor no mobile, retangular grande no desktop */}
               <div className="relative w-28 h-28 md:w-full md:h-56 flex-shrink-0 overflow-hidden rounded-xl md:rounded-2xl md:mb-5">
@@ -169,24 +174,29 @@ const Menu: React.FC = () => {
               </div>
 
               {/* Content Container */}
-              <div className="flex flex-col flex-grow justify-between w-full h-full md:h-auto">
-                <div>
+              <div className="flex flex-col flex-grow justify-between w-full h-full md:h-auto overflow-hidden">
+                <div className="flex flex-col">
                   <h3 className="font-serif text-lg md:text-xl text-accent mb-1 md:mb-2 group-hover:text-primary transition-colors font-bold duration-500 leading-tight line-clamp-2">
                     {product.name}
                   </h3>
-                  <p className="font-sans text-secondary text-xs md:text-sm font-normal leading-relaxed transition-colors duration-500 mb-2 md:mb-4 line-clamp-2 md:line-clamp-3">
+                  <p className="font-sans text-secondary text-xs md:text-sm font-normal leading-relaxed transition-colors duration-500 mb-1 md:mb-3 line-clamp-2">
                     {product.description}
                   </p>
+                  
+                  {/* Ingredients Section - Melhorada */}
+                  <div className="mb-2 md:mb-4 bg-primary/5 p-2 rounded-lg border border-primary/5">
+                    <p className="text-[10px] md:text-xs text-secondary/80 leading-tight md:line-clamp-3">
+                      <span className="font-bold text-primary mr-1 block md:inline mb-1 md:mb-0">Ingredientes:</span>
+                      {product.ingredients}
+                    </p>
+                  </div>
                 </div>
                 
                 <div className="flex justify-between items-center mt-auto md:border-t border-primary/5 md:pt-4">
                    <span className="font-script text-xl md:text-2xl text-primary font-bold">{product.price}</span>
                    <button 
-                     onClick={(e) => {
-                       e.stopPropagation();
-                       addToCart(product);
-                     }}
-                     className="w-8 h-8 md:w-auto md:h-auto md:px-4 md:py-2 rounded-full md:rounded-lg bg-surfaceHighlight text-primary hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-sm"
+                     onClick={() => addToCart(product)}
+                     className="w-8 h-8 md:w-auto md:h-auto md:px-4 md:py-2 rounded-full md:rounded-lg bg-surfaceHighlight text-primary hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-sm cursor-pointer z-30 relative"
                    >
                      <Plus size={18} className="md:hidden" />
                      <span className="hidden md:inline text-xs font-bold uppercase tracking-widest">Adicionar</span>

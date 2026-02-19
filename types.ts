@@ -4,8 +4,9 @@ export interface Product {
   id: number;
   name: string;
   description: string;
+  ingredients: string; // Novo campo
   price: string;
-  priceValue: number; // Added for calculations
+  priceValue: number;
   image: string;
   category: string;
 }
@@ -26,5 +27,5 @@ export interface Feature {
   title: string;
   description: string;
   icon: React.ReactNode;
-  span?: string; // For Bento Grid sizing
+  span?: string;
 }
