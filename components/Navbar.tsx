@@ -15,6 +15,24 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+    
+    const element = document.getElementById(targetId);
+    if (element) {
+      // Offset para o header fixo (aprox 80px)
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+
   // Dynamic text classes based on scroll state
   const textColorClass = isScrolled ? 'text-accent' : 'text-white';
   const subTextColorClass = isScrolled ? 'text-primary' : 'text-primary';
@@ -28,7 +46,7 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
-        <a href="#" className="flex flex-col leading-tight group">
+        <a href="#" className="flex flex-col leading-tight group" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
           <span className={`font-script text-3xl transition-colors ${textColorClass} group-hover:text-primary`}>Ateliê dos</span>
           <span className={`font-serif text-2xl font-bold tracking-tight transition-colors -mt-2 ${subTextColorClass} group-hover:${isScrolled ? 'text-accent' : 'text-white'}`}>Sabores</span>
         </a>
@@ -39,6 +57,7 @@ const Navbar: React.FC = () => {
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`} 
+              onClick={(e) => handleNavClick(e, item.toLowerCase())}
               className={`text-sm uppercase tracking-widest font-medium transition-colors duration-300 ${linkColorClass}`}
             >
               {item}
@@ -60,6 +79,7 @@ const Navbar: React.FC = () => {
           </button>
           <a 
             href="#menu"
+            onClick={(e) => handleNavClick(e, 'menu')}
             className="px-6 py-2 bg-primary text-white rounded-full text-xs uppercase tracking-widest hover:bg-accent transition-all duration-300 shadow-md hover:shadow-lg border border-transparent"
           >
             Encomendar
@@ -97,7 +117,7 @@ const Navbar: React.FC = () => {
               key={item} 
               href={`#${item.toLowerCase()}`} 
               className="text-lg font-serif text-accent text-center hover:text-primary transition-colors"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => handleNavClick(e, item.toLowerCase())}
             >
               {item}
             </a>
